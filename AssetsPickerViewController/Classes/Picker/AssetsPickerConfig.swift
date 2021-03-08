@@ -119,7 +119,10 @@ open class AssetsPickerConfig {
     open var assetLandscapeColumnCount: Int = UI_USER_INTERFACE_IDIOM() == .pad ? 7 : 5
     open var assetLandscapeInteritemSpace: CGFloat = 1.5
     open var assetLandscapeLineSpace: CGFloat = 1.5
-    
+
+    open var videoMaxDuration: TimeInterval? = nil
+    open var pickerMediaType: [String] = ["public.image","public.movie"]
+
     func assetLandscapeCellSize(forViewSize size: CGSize) -> CGSize {
         let count = CGFloat(self.assetLandscapeColumnCount)
         let edge = (size.width - (count - 1) * self.assetLandscapeInteritemSpace) / count

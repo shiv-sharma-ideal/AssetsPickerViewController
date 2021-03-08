@@ -19,7 +19,7 @@ extension AssetsPhotoViewController {
     }
     
     @objc func pressedCamera(button: UIBarButtonItem) {
-        cameraPicker.requestTake(parent: self)
+        cameraPicker.requestTake(parent: self,config: pickerConfig)
     }
     
     @objc func pressedDone(button: UIBarButtonItem) {
@@ -41,6 +41,10 @@ extension AssetsPhotoViewController: UIGestureRecognizerDelegate {
         let point = touch.location(in: navigationBar)
         // Ignore touches on navigation buttons on both sides.
         return point.x > navigationBar.bounds.width / 4 && point.x < navigationBar.bounds.width * 3 / 4
+    }
+
+    public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 

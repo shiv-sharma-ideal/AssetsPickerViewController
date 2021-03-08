@@ -28,19 +28,27 @@ class AssetsPickerManager: NSObject {
     func requestTakePhoto(parent: UIViewController, success: ((Any?) -> Void)? = nil, cancel: (() -> Void)? = nil) {
         let controller = UIImagePickerController()
         controller.delegate = self
-        controller.sourceType = .camera
+        controller.sourceType = UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary
         controller.allowsEditing = allowsEditing
         self.successCallback = success
         self.cancelCallback = cancel
         parent.present(controller, animated: true, completion: nil)
     }
     
-    func requestTake(parent: UIViewController, success: ((Any?) -> Void)? = nil, cancel: (() -> Void)? = nil) {
+    func requestTake(parent: UIViewController,config: AssetsPickerConfig? = nil, success: ((Any?) -> Void)? = nil, cancel: (() -> Void)? = nil) {
         let controller = UIImagePickerController()
         controller.delegate = self
-        controller.sourceType = .camera
+        controller.sourceType = UIImagePickerController.isSourceTypeAvailable(.camera) ? .camera : .photoLibrary
         controller.allowsEditing = allowsEditing
-        controller.mediaTypes = ["public.image", "public.movie"]
+        if let duration = config?.videoMaxDuration {
+            controller.videoMaximumDuration = duration
+        }
+        controller.allowsEditing = allowsEditing
+        if let pickerConfig = config,!pickerConfig.pickerMediaType.isEmpty {
+            controller.mediaTypes = pickerConfig.pickerMediaType
+        } else{
+            controller.mediaTypes = ["public.image,public.video"]
+        }
         self.successCallback = success
         self.cancelCallback = cancel
         parent.present(controller, animated: true, completion: nil)
